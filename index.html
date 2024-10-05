@@ -139,26 +139,33 @@
     <div class="col-md-6">
       <div class="upload-section">
         <h5 class="text-dark text-center fw-bold">Proposal upload</h5>
-        <!-- Upload Box with Background -->
-        <div class="upload-box rounded p-4 text-center bg-white position-relative" style="height: 200px; border: 1px dashed gray;">
-          <div class="background-image" style="background-image: url('bg.png'); background-size: contain; background-repeat: no-repeat; background-position: center; height: 100px;"></div>
-          <label for="proposalUpload" class="fw-bold d-block text-dark mt-2">Drag & drop files or <a href="#">Browse</a></label>
-          <input type="file" id="proposalUpload" class="d-none">
-          <small class="text-muted d-block">Supported formats: PDF, Word</small>
-        </div>
-        <!-- Progress Bar -->
-<div class="upload-progress mt-3 d-flex justify-content-between align-items-center">
+
+       <!-- Upload Box with Background -->
+<div id="uploadBox" class="upload-box rounded p-4 text-center bg-white position-relative" style="height: 200px; border: 1px dashed gray;">
+  <div class="icon-display" style="height: 120px;">
+    <i id="fileIcon" class="bi bi-cloud-arrow-up-fill" style="font-size: 6rem;"></i> 
+  </div>
+  <label for="proposalUpload" class="fw-bold d-block text-dark mt-2">Drag & drop files or <a href="#" id="browseLink">Browse</a></label>
+  <input type="file" id="proposalUpload" class="d-none" accept=".pdf,.doc,.docx">
+  <small class="text-muted d-block">Supported formats: PDF, Word</small>
+</div>
+
+        
+     <!-- Progress Bar -->
+<div id="uploadProgress" class="upload-progress mt-3 d-flex justify-content-between align-items-center" style="display: none;">
   <div class="flex-grow-1 me-2">
-      <span class="fw-bold">File Name: Research_Proposal.PDF</span>
+      <span id="fileName" class="fw-bold"></span>
       <div class="progress mt-1">
-          <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+          <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
       </div>
   </div>
-  <button class="btn btn-link text-danger"><i class="bi bi-x-circle" style="font-size: 1.5rem;"></i></button>
+  <button id="cancelButton" class="btn btn-link text-danger" onclick="cancelUpload()">
+      <i id="cancelIcon" class="bi bi-x-circle" style="font-size: 1.5rem;"></i>
+  </button>
 </div>
 
         <!-- Uploaded Files List -->
-<div class="uploaded-files mt-3">
+<div class="uploaded-files mt-3" id="uploadedFileList">
   <ul class="list-unstyled d-flex justify-content-between align-items-center" style="width: 80%;">
       <li class="d-flex justify-content-between align-items-center p-2 border rounded mb-2 bg-white flex-grow-1">
           <span>1. Research_Proposal.PDF</span>
@@ -197,23 +204,29 @@
     <div class="col-md-6">
       <div class="upload-section">
         <h5 class="text-dark text-center fw-bold">Plag Test Reports upload</h5>
-        <!-- Upload Box with Background -->
-        <div class="upload-box rounded p-4 text-center bg-white position-relative" style="height: 200px; border: 1px dashed gray;">
-          <div class="background-image" style="background-image: url('bg.png'); background-size: contain; background-repeat: no-repeat; background-position: center; height: 100px;"></div>
-          <label for="plagUpload" class="fw-bold d-block text-dark mt-2">Drag & drop files or <a href="#">Browse</a></label>
-          <input type="file" id="plagUpload" class="d-none">
-          <small class="text-muted d-block">Supported formats: JPEG, PNG, PDF, Word</small>
-        </div>
-        <!-- Progress Bar -->
-<div class="upload-progress mt-3 d-flex justify-content-between align-items-center">
+<!-- Upload Box with Background -->
+<div id="plagUploadBox" class="upload-box rounded p-4 text-center bg-white position-relative" style="height: 200px; border: 1px dashed gray;">
+  <div class="icon-display" style="height: 120px;">
+    <i id="fileIconPlag" class="bi bi-cloud-arrow-up-fill" style="font-size: 6rem;"></i> 
+  </div>
+  <label for="plagUpload" class="fw-bold d-block text-dark mt-2">Drag & drop files or <a href="#" id="browseLinkPlag">Browse</a></label>
+  <input type="file" id="plagUpload" class="d-none" accept=".jpeg,.jpg,.png,.pdf,.doc,.docx">
+  <small class="text-muted d-block">Supported formats: JPEG, PNG, PDF, Word</small>
+</div>
+
+<!-- Progress Bar -->
+<div id="uploadProgressPlag" class="upload-progress mt-3 d-flex justify-content-between align-items-center" style="display: none;">
   <div class="flex-grow-1 me-2">
-      <span class="fw-bold">File Name: Research_Proposal.PDF</span>
+      <span id="fileNamePlag" class="fw-bold"></span>
       <div class="progress mt-1">
-          <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+          <div id="progressBarPlag" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
       </div>
   </div>
-  <button class="btn btn-link text-danger"><i class="bi bi-x-circle" style="font-size: 1.5rem;"></i></button>
+  <button id="cancelButtonPlag" class="btn btn-link text-danger" onclick="cancelUploadPlag()">
+      <i id="cancelIconPlag" class="bi bi-x-circle" style="font-size: 1.5rem;"></i>
+  </button>
 </div>
+
 
         <!-- Uploaded Files List -->
 <div class="uploaded-files mt-3">
@@ -224,8 +237,8 @@
       </li>
       <!-- Download & Delete Buttons -->
       <div class="d-flex align-items-center">
-          <button class="btn btn-link text-primary me-2"><i class="bi bi-download"></i></button>
-          <button class="btn btn-link text-danger"><i class="bi bi-trash"></i></button>
+          <button class="btn btn-link text-primary me-2"><i class="bi bi-cloud-arrow-down-fill"></i></button>
+          <button class="btn btn-link text-danger"><i class="bi bi-trash3-fill"></i></button>
       </div>
   </ul>
 </div>
@@ -237,8 +250,8 @@
       </li>
       <!-- Download & Delete Buttons -->
       <div class="d-flex align-items-center">
-          <button class="btn btn-link text-primary me-2"><i class="bi bi-download"></i></button>
-          <button class="btn btn-link text-danger"><i class="bi bi-trash"></i></button>
+          <button class="btn btn-link text-primary me-2"><i class="bi bi-cloud-arrow-down-fill"></i></button>
+          <button class="btn btn-link text-danger"><i class="bi bi-trash3-fill"></i></button>
       </div>
   </ul>
 </div>
